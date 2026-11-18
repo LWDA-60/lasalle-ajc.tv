@@ -17,7 +17,7 @@
   .bar h1{font-size:clamp(12px,1.35vw,22px);letter-spacing:.045em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .bar .tag{font-size:clamp(9px,.8vw,13px);color:var(--gold);font-weight:bold;white-space:nowrap}
   .frame{border:0;width:100%;height:100%;display:block;flex:1 1 auto;background:#fff}
-  .videoFrame{background:#101014}
+  .videoFrame{background:#101014;object-fit:contain}
   .actions{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:0;transition:opacity .2s;z-index:30}
   body:hover .actions,body:focus-within .actions{opacity:1}
   button{background:rgba(28,20,45,.96);color:#fff;border:1px solid #d3ba74;border-radius:8px;padding:9px 13px;cursor:pointer;font-weight:bold;font-size:13px}
@@ -30,7 +30,7 @@
 <main class="screen" aria-label="LaSalle AJC split screen display">
   <section class="pane" aria-label="LWDA 60 promotional video">
     <header class="bar"><h1>LWDA 60 | NEWS &amp; SUCCESS STORIES</h1><span class="tag">WORKS FOR YOU</span></header>
-    <iframe id="video" class="frame videoFrame" title="LWDA 60 TV Video" allow="autoplay; fullscreen; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" src="https://drive.google.com/file/d/1IU4TIO-VkpITS9SOthtqDuF-QW-DC4km/preview"></iframe>
+    <video id="video" class="frame videoFrame" title="LWDA 60 TV Video" autoplay muted loop playsinline preload="auto"><source src="tv-video.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
   </section>
   <section class="pane" aria-label="LaSalle Parish job board">
     <header class="bar"><h1>LASALLE PARISH | JOB OPENINGS</h1><span class="tag">UPDATED ONLINE</span></header>
@@ -43,6 +43,7 @@
 </div>
 <div id="message" role="status"></div>
 <script>
+  // The MP4 must be uploaded as tv-video.mp4 in this same GitHub repository folder.
   const DOC_URL='https://docs.google.com/document/d/1Ohk34LgsE5Bf7J0Ev7fV6eIvS9O5buTRdZfmbJRJv2E/preview';
   const REFRESH_MINUTES=5;
   function refreshJobs(){

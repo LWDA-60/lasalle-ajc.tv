@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#25163f" />
+<title>LaSalle American Job Center | Digital Display</title>
+<style>
+  :root{--purple:#342052;--gold:#e6b94f;--panel:#f4f5f7;--dark:#18171d}
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--dark);font-family:Arial,Helvetica,sans-serif}
+  .screen{height:100dvh;width:100%;display:grid;grid-template-columns:60fr 40fr;gap:4px;background:var(--gold)}
+  .pane{min-height:0;min-width:0;position:relative;display:flex;flex-direction:column;overflow:hidden}
+  .pane:first-child{background:#0b0b0e}
+  .pane:last-child{background:#fff}
+  .bar{height:44px;flex:0 0 44px;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15px;gap:8px;border-bottom:3px solid var(--gold)}
+  .bar h1{font-size:clamp(12px,1.35vw,22px);letter-spacing:.045em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar .tag{font-size:clamp(9px,.8vw,13px);color:var(--gold);font-weight:bold;white-space:nowrap}
+  .frame{border:0;width:100%;height:100%;display:block;flex:1 1 auto;background:#fff}
+  .videoFrame{background:#101014;object-fit:contain}
+  .actions{position:fixed;bottom:8px;right:8px;display:flex;gap:8px;opacity:0;transition:opacity .2s;z-index:30}
+  body:hover .actions,body:focus-within .actions{opacity:1}
+  button{background:rgba(28,20,45,.96);color:#fff;border:1px solid #d3ba74;border-radius:8px;padding:9px 13px;cursor:pointer;font-weight:bold;font-size:13px}
+  .actions button{padding:5px 8px;font-size:11px;border-radius:5px;font-weight:normal}
+  button:hover{background:#52376f}
+  @media(max-width:650px){.bar{height:38px;flex-basis:38px;padding:0 6px}.bar h1{font-size:10px}.tag{display:none}.actions{opacity:1;bottom:6px}button{font-size:11px;padding:7px}}
+</style>
+</head>
+<body>
+<main class="screen" aria-label="LaSalle AJC split screen display">
+  <section class="pane" aria-label="LWDA 60 promotional video">
+    <header class="bar"><h1>LWDA 60 | NEWS &amp; SUCCESS STORIES</h1></header>
+    <iframe id="video" class="frame videoFrame" title="LWDA 60 TV Video" src="https://www.youtube.com/embed/EkpIfPS6A1w?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=EkpIfPS6A1w&amp;playsinline=1&amp;controls=0&amp;rel=0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </section>
+  <section class="pane" aria-label="LaSalle Parish job board">
+    <header class="bar"><h1>LASALLE PARISH | JOB OPENINGS</h1></header>
+    <iframe id="jobs" class="frame" title="LaSalle Job Board" referrerpolicy="strict-origin-when-cross-origin" src="https://docs.google.com/document/d/1Ohk34LgsE5Bf7J0Ev7fV6eIvS9O5buTRdZfmbJRJv2E/preview"></iframe>
+  </section>
+</main>
+<div class="actions" aria-label="Display controls">
+  <button type="button" onclick="fullScreen()" title="Toggle fullscreen">⛶ Full screen</button>
+</div>
+<script>
+  // YouTube embed uses muted autoplay and single-video loop; support varies by browser.
+  const DOC_URL='https://docs.google.com/document/d/1Ohk34LgsE5Bf7J0Ev7fV6eIvS9O5buTRdZfmbJRJv2E/preview';
+  const REFRESH_MINUTES=60;
+  function refreshJobs(){
+    // Only reload the Google Doc iframe. The video is never interrupted.
+    const frame=document.getElementById('jobs');
+    frame.src=DOC_URL+(DOC_URL.includes('?')?'&':'?')+'reload='+Date.now();
+  }
+  function fullScreen(){if(!document.fullscreenElement){document.documentElement.requestFullscreen?.().catch(()=>{});}else{document.exitFullscreen?.();}}
+  setInterval(refreshJobs,REFRESH_MINUTES*60*1000);
+</script>
+</body>
+</html>
